@@ -1,0 +1,144 @@
+//expose the volume variables as globals
+var _sc_volume = 0;
+var _sc_nextVolume = 0;
+//var _sc_artworkImg = new Image();
+var _sc_currentPlayer;
+
+var domLoaded = function (callback) {
+	/* Internet Explorer */
+	/*@cc_on
+	@if (@_win32 || @_win64)
+	    document.write('<script id="ieScriptLoad" defer src="//:"><\/script>');
+	    document.getElementById('ieScriptLoad').onreadystatechange = function() {
+	        if (this.readyState == 'complete') {
+	            callback();
+	        }
+	    };
+	    return;
+	@end @*/
+	/* Mozilla, Chrome, Opera */
+	if (document.addEventListener) {
+	    document.addEventListener('DOMContentLoaded', callback, false);
+	    return;
+	}
+	/* Safari, iCab, Konqueror */
+	if (/KHTML|WebKit|iCab/i.test(navigator.userAgent)) {
+	    var DOMLoadTimer = setInterval(function () {
+	        if (/loaded|complete/i.test(document.readyState)) {
+	            callback();
+	            clearInterval(DOMLoadTimer);
+	        }
+	    }, 10);
+	    return;
+	}
+	/* Other web browsers */
+	window.onload = callback;
+};
+
+(function() {
+	var waveformWidth 	= 1800,
+		waveformHeight 	= 280;
+	var sc_loop;
+
+	function start(player) {
+		var duration = 	player.api_getCurrentTrack().duration / 1000; //duration in seconds
+		var interval = (1000 / 30); //frames per second
+		var src = document.getElementById('sc_wf').getContext('2d');
+		var x = waveformWidth * player.api_getTrackPosition() / duration;
+		var prevx = -1,
+			y = 0,
+			counter = 0,
+			prevCounter = 0,
+			step = 0;
+		
+		soundcloud.getCurrentX = function() {
+			return Math.floor(waveformWidth * player.api_getTrackPosition() / duration);
+		}
+
+		soundcloud.getCurrentVolume = function() {
+			x = soundcloud.getCurrentX();
+			var pixels = src.getImageData(x, 0, 1, waveformHeight/2).data;
+			y = countPixels(pixels);
+			return (waveformHeight - (y * 2)) / waveformHeight; //between 0 and 1
+		}
+
+		soundcloud.getNextVolume = function() {
+			x = soundcloud.getCurrentX();
+			var pixels = src.getImageData(x+1, 0, 1, waveformHeight/2).data;
+			y = countPixels(pixels);
+			return (waveformHeight - (y * 2)) / waveformHeight; //between 0 and 1
+		}
+
+		soundcloud.getArtwork = function() {
+			return _sc_artworkImg;
+		}
+
+		var countPixels = function(pixels) {
+			y = 0;
+			for (var i = 0, n = pixels.length; i < n; i += 4) {
+				if (pixels[i+3] == 0) {
+					break;
+				} else {
+					y += 1;
+				}
+			}
+			return y;
+		}
+
+	}
+
+	function soundCloudReady() {
+		var artworkImg = new Image();
+		soundcloud.addEventListener('onPlayerReady', function(player, data) {
+			var ctx = document.getElementById('sc_wf').getContext('2d');
+			//load waveform into canvas
+			var img = new Image();
+			img.onload = function(){ ctx.drawImage(img, 0, 0); }
+			img.src = '/' + encodeURIComponent(player.api_getCurrentTrack().waveformUrl.split('?')[0]);
+		});
+		soundcloud.addEventListener('onMediaPlay', function(player, data) {
+			_sc_currentPlayer = player;
+			start(player);
+			//get artwork image
+			if (!_sc_artworkImg.src) {
+				if (player.api_getCurrentTrack().artwork != undefined) {
+					_sc_artworkImg.src = '/' + encodeURIComponent(player.api_getCurrentTrack().artwork.split('?')[0]);
+				} else {
+					_sc_artworkImg.src = 'http://im.in.com/media/download/wallpapers/2009/Oct/music-abstract_02_420x315.jpg';
+				}
+			}
+		});
+	}
+
+	function getItStarted() {
+		//create the src canvas
+		var src = document.createElement('canvas');
+		src.setAttribute('style', 'display:none;');
+		src.setAttribute('width', waveformWidth);
+		src.setAttribute('height', waveformHeight);
+		src.id = 'sc_wf';
+		document.body.appendChild(src);
+
+		//load soundcloud api js if not already loaded
+		if (typeof(window.soundcloud) == 'undefined') {
+			var script = document.createElement('script');
+			script.src = 'https://raw.github.com/soundcloud/Widget-JS-API/master/soundcloud.player.api.js';
+			var head = document.getElementsByTagName('head')[0],
+				done = false;
+			script.onload = script.onreadystatechange = function() {
+				if (!done && (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete')) {
+					done = true;
+					soundCloudReady();
+					script.onload = script.onreadystatechange = null;
+					head.removeChild(script);
+				};
+	        };
+	        head.appendChild(script);
+		} else {
+			soundCloudReady();
+		}
+	}
+
+	domLoaded(getItStarted);
+
+})();
