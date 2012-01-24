@@ -1,9 +1,9 @@
-require 'sinatra/base'
+require 'sinatra'
 require 'net/http'
 require 'uri'
 
 
-class SoundCloud < Sinatra::Base
+# class SoundCloud < Sinatra::Base
 	get '/hello' do
 		'hello world'
 	end
@@ -15,5 +15,5 @@ class SoundCloud < Sinatra::Base
 	end
 
 	# start the server if ruby file executed directly
-	run! if app_file == $0
-end
+	# run! if app_file == $0
+# end
