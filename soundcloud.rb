@@ -4,7 +4,7 @@ require 'uri'
 
 
 class SoundCloud < Sinatra::Base
-	get '/index' do
+	get '/hello' do
 		'hello world'
 	end
 
