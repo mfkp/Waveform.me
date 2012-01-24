@@ -1,7 +1,7 @@
 require 'rubygems'
-#require 'bundler'
+require 'bundler'
 
-#Bundler.require
+Bundler.require
 
 require './soundcloud'
 run SoundCloud
