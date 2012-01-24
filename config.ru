@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'bundler'
-require 'soundcloud.rb'
+require './soundcloud'
 
 Bundler.require
 
