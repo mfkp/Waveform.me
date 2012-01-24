@@ -14,9 +14,9 @@ require 'uri'
 	  res.body
 	end
 
-	not_found do
-	  'This is nowhere to be found.'
-	end
+	# not_found do
+	#   'This is nowhere to be found.'
+	# end
 
 	# start the server if ruby file executed directly
 	# run! if app_file == $0
