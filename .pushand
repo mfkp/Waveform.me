@@ -1,2 +1,2 @@
 #! /bin/bash
-phd $0 soundcloud soundcloud
+phd $0 soundcloud waveform.me
