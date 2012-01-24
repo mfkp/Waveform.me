@@ -4,8 +4,8 @@ require 'uri'
 
 
 # class SoundCloud < Sinatra::Base
-	get '/get/:url' do
-	  res = Net::HTTP.get_response URI.parse(URI.unescape(params[:url]))
+	get '/get/*' do |path|
+	  res = Net::HTTP.get_response URI.parse(URI.unescape(path))
 	  content_type 'image/png'
 	  res.body
 	end
