@@ -11,7 +11,11 @@ require 'uri'
 	get '/get/:url' do
 	  res = Net::HTTP.get_response URI.parse(URI.unescape(params[:url]))
 	  content_type 'image/png'
-	  res
+	  res.body
+	end
+
+	not_found do
+	  'This is nowhere to be found.'
 	end
 
 	# start the server if ruby file executed directly
