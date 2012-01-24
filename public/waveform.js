@@ -45,12 +45,12 @@ window.scVisualizations = [];
 			ctx.clearRect(0, 0, ctx.width, ctx.height);
 			ctx.drawImage(waveformImg, 0, 0); 
 		}
-		waveformImg.src = '/get/' + encodeURIComponent(player.api_getCurrentTrack().waveformUrl.split('?')[0]).replace('%','%25');
+		waveformImg.src = '/get/' + encodeURIComponent(player.api_getCurrentTrack().waveformUrl.split('?')[0]).replace(/%/g, '%25');
 
 		//get artwork image
 		var artworkImg = new Image();
 		if (player.api_getCurrentTrack().artwork != undefined) {
-			artworkImg.src = '/get/' + encodeURIComponent(player.api_getCurrentTrack().artwork.split('?')[0]).replace('%','%25');
+			artworkImg.src = '/get/' + encodeURIComponent(player.api_getCurrentTrack().artwork.split('?')[0]).replace(/%/g, '%25');
 		} else {
 			artworkImg.src = '/images/default-artwork.jpg';
 		}
