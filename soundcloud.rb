@@ -6,8 +6,9 @@ require 'uri'
 # class SoundCloud < Sinatra::Base
 	get '/get/:url' do
 	  res = Net::HTTP.get_response URI.parse(URI.unescape(params[:url]))
-	  content_type 'image/png'
-	  res.body
+	  #content_type 'image/png'
+	  #res.body
+	  params[:url]
 	end
 
 	# start the server if ruby file executed directly
