@@ -8,7 +8,7 @@ require 'uri'
 	  # res = Net::HTTP.get_response URI.parse(URI.unescape(url))
 	  # content_type 'image/png'
 	  # res.body
-	  url
+	  url 
 	end
 
 	# start the server if ruby file executed directly
