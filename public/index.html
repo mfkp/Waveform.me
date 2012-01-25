@@ -27,7 +27,7 @@
     <![endif]-->
 
     <!-- Le styles -->
-    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+    <link rel="stylesheet" href="https://raw.github.com/twitter/bootstrap/master/bootstrap.min.css">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -44,15 +44,15 @@
     <div class="topbar" data-dropdown="dropdown">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="#">Waveform.me</a>
+          <a class="brand" href="/index.html">Waveform.me</a>
           <ul class="nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li class="active"><a href="/index.html">Home</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle">Examples</a>
               <ul class="dropdown-menu">
-                <li><a href="#">Rainbow Waveform</a></li>
-                <li><a href="#">Vinyl Record</a></li>
-                <li><a href="#">Burning Cigarette</a></li>
+                <li><a href="record.html">Turntable.am</a></li>
+                <li><a href="cigarette.html">Smoke Break</a></li>
+                <li><a href="rainbow.html">Double Rainbow</a></li>
               </ul>
             </li>
             <li><a href="#docs">Docs</a></li>
@@ -67,29 +67,6 @@
       <div class="hero-unit">
         <h1>Waveform.me</h1>
         <p>Vestibulum id ligula porta felis euismod semper. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
-        <object height="81" width="100%" id="customPlayer"> <param name="movie" value="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F25545600&amp;auto_play=true&amp;color=ff7700&enable_api=true&object_id=customPlayer&show_comments=false"></param> <param name="allowscriptaccess" value="always"></param> <embed allowscriptaccess="always" height="81" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F25545600&amp;show_comments=true&amp;auto_play=true&amp;color=ff7700&amp;show_comments=false" type="application/x-shockwave-flash" width="100%" name="customPlayer"></embed> </object>
-        <object height="81" width="100%" id="customPlayer2"> <param name="movie" value="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F18804009&amp;auto_play=false&amp;color=ff7700&enable_api=true&object_id=customPlayer2&show_comments=false"></param> <param name="allowscriptaccess" value="always"></param> <embed allowscriptaccess="always" height="81" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F18804009&amp;show_comments=true&amp;auto_play=false&amp;color=ff7700&amp;show_comments=false" type="application/x-shockwave-flash" width="100%" name="customPlayer2"></embed> </object>
-        <p><a class="btn primary large">How do I use it?</a></p>
-      </div>
-
-      <div class="hero-unit">
-        <h1>Rainbow Waveform</h1>
-        <p>Vestibulum id ligula porta felis euismod semper. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
-        <canvas id="rainbow" width="800px" height="280px"></canvas>
-        <p><a class="btn primary large">How do I use it?</a></p>
-      </div>
-
-      <div class="hero-unit">
-        <h1>Record</h1>
-        <p>Vestibulum id ligula porta felis euismod semper. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
-        <center><canvas id="record" width="300px" height="300px"></canvas></center>
-        <p><a class="btn primary large">How do I use it?</a></p>
-      </div>
-
-      <div class="hero-unit">
-        <h1>Cigarette</h1>
-        <p>Vestibulum id ligula porta felis euismod semper. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
-        <canvas id="cigarette" width="800px" height="250px"></canvas>
         <p><a class="btn primary large">How do I use it?</a></p>
       </div>
 
@@ -111,13 +88,6 @@
           <p><a class="btn" href="#">View details &raquo;</a></p>
         </div>
       </div>
-      <div class="row">
-
-		
-		<!-- 
-		<object height="360" width="100%" id="customPlayer3"> <param name="movie" value="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Fplaylists%2F1285935&amp;show_comments=false&amp;auto_play=false&amp;show_playcount=true&amp;show_artwork=true&amp;color=ff7700&amp;enable_api=true&amp;object_id=customPlayer3"></param> <param name="allowscriptaccess" value="always"></param> <embed allowscriptaccess="always" height="360" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Fplaylists%2F1285935&amp;show_comments=false&amp;auto_play=false&amp;show_playcount=true&amp;show_artwork=true&amp;color=ff7700&enable_api=true&object_id=customPlayer3" type="application/x-shockwave-flash" width="100%" name="customPlayer3"></embed> </object>
-		 -->
- 		</div>
 
       <footer>
         <p>&copy; Company 2011</p>
@@ -125,8 +95,8 @@
 
     </div> <!-- /container -->
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script type="text/javascript" src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-dropdown.js"></script>
 	<script type="text/javascript">
 		$(function() {
 			$('#topbar').dropdown();
