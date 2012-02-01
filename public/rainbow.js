@@ -32,7 +32,7 @@
 			ctx.fillRect(x+1,height/2 - (waveformHeight/2),barWidth,waveformHeight); //end cap
 			if (skeleton) {
 				ctx.fillStyle = skeletonbgcolor;
-				ctx.fillRect(x-3,height/2 - (waveformHeight/4),1,waveformHeight/2);
+				ctx.fillRect(x,height/2 - (waveformHeight/4),1,waveformHeight/2);
 			}
 		}
 		scVisualizations.push(loop);
