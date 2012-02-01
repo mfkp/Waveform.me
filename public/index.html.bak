@@ -1,0 +1,104 @@
+<!--
+2F23304111 unlimited gravity
+2F25545600 shave it - zedd
+2F14125801 scorpion move - zedd
+2F3751100 rematch - white panda (hour long)
+2F24901181 i'm a freak - micky slim
+2F28698952 animal - yelawolf
+2F28631155 bassive - felguv
+2F14125801 Zedd - Dovregubben
+2F1233232 skee-lo - i wish remix
+2F18804009 skee-lo - i wish remix 2
+2F33944603 easy - shumbot
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Waveform.me - Custom HTML5 Canvas Visualzations for SoundCloud</title>
+    <meta name="description" content="Custom HTML5 Canvas Visualzations for SoundCloud">
+    <meta name="author" content="Kyle Powers">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+    </style>
+    <script type="text/javascript" src="waveform.js"></script>
+  </head>
+
+  <body>
+
+    <div class="topbar" data-dropdown="dropdown">
+      <div class="fill">
+        <div class="container">
+          <a class="brand" href="/index.html">Waveform.me</a>
+          <ul class="nav">
+            <li class="active"><a href="/index.html">Home</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle">Examples</a>
+              <ul class="dropdown-menu">
+                <li><a href="record.html">Turntable.am</a></li>
+                <li><a href="cigarette.html">Smoke Break</a></li>
+                <li><a href="rainbow.html">Double Rainbow</a></li>
+              </ul>
+            </li>
+            <li><a href="#docs">Docs</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>Waveform.me</h1>
+        <p>Vestibulum id ligula porta felis euismod semper. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
+        <p><a class="btn primary large">How do I use it?</a></p>
+      </div>
+
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="span6">
+          <h2>Heading</h2>
+          <p>Etiam porta sem malesuada magna mollis euismod. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
+          <p><a class="btn" href="#">View details &raquo;</a></p>
+        </div>
+        <div class="span5">
+          <h2>Heading</h2>
+           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn" href="#">View details &raquo;</a></p>
+       </div>
+        <div class="span5">
+          <h2>Heading</h2>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p><a class="btn" href="#">View details &raquo;</a></p>
+        </div>
+      </div>
+
+      <footer>
+        <p>&copy; Company 2011</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/bootstrap-dropdown.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$('#topbar').dropdown();
+		});
+	</script>
+
+  </body>
+</html>
