@@ -6,6 +6,10 @@ get '/' do
   erb :index
 end
 
+get '/docs' do
+  erb :docs
+end
+
 #simple soundcloud image proxy so we can serve images through the same domain
 get '/get/*' do |url|
   if !url.match(/^http:\/\//)
