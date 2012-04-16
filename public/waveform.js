@@ -7,7 +7,7 @@ window.scVisualizations = [];
 
 	function start(player) {
 		clearListeners();
-		
+
 		var volume = 0,
 			nextVolume = 0,
 			percentage = 0,
@@ -21,7 +21,7 @@ window.scVisualizations = [];
 			durationHours = parseInt(Math.round(duration) / 3600) % 24,
 			durationMinutes = parseInt(Math.round(duration) / 60) % 60,
 			durationSeconds = Math.round(duration) % 60,
-			durationStr = (durationHours > 0 ? durationHours + ":" : "") + durationMinutes 
+			durationStr = (durationHours > 0 ? durationHours + ":" : "") + durationMinutes
 						  + ":" + (durationSeconds < 10 ? "0" + durationSeconds : durationSeconds),
 			interval = (1000 / 60); //frames per second
 
@@ -41,16 +41,16 @@ window.scVisualizations = [];
 
 		//load waveform into canvas
 		var waveformImg = new Image();
-		waveformImg.onload = function(){ 
+		waveformImg.onload = function(){
 			ctx.clearRect(0, 0, ctx.width, ctx.height);
-			ctx.drawImage(waveformImg, 0, 0); 
+			ctx.drawImage(waveformImg, 0, 0);
 		}
-		waveformImg.src = '/get/' + encodeURIComponent(player.api_getCurrentTrack().waveformUrl.split('?')[0]);
+		waveformImg.src = '//waveform.me/get/' + encodeURIComponent(player.api_getCurrentTrack().waveformUrl.split('?')[0]);
 
 		//get artwork image
 		var artworkImg = new Image();
 		if (player.api_getCurrentTrack().artwork != undefined) {
-			artworkImg.src = '/get/' + encodeURIComponent(player.api_getCurrentTrack().artwork.split('?')[0]);
+			artworkImg.src = '//waveform.me/get/' + encodeURIComponent(player.api_getCurrentTrack().artwork.split('?')[0]);
 		} else {
 			artworkImg.src = '/images/default-artwork.jpg';
 		}
