@@ -45,14 +45,17 @@ window.scVisualizations = [];
 			ctx.clearRect(0, 0, ctx.width, ctx.height);
 			ctx.drawImage(waveformImg, 0, 0);
 		}
-		waveformImg.src = '/get/' + encodeURIComponent(player.api_getCurrentTrack().waveformUrl.split('?')[0]);
+		JSONP.get('/get64/' + encodeURIComponent(player.api_getCurrentTrack().waveformUrl.split('?')[0]), {}, function(response){
+			waveformImg.src = response;
+		});
 
 		//get artwork image
 		var artworkImg = new Image();
+		artworkImg.src = '/images/default-artwork.jpg';
 		if (player.api_getCurrentTrack().artwork != undefined) {
-			artworkImg.src = '/get/' + encodeURIComponent(player.api_getCurrentTrack().artwork.split('?')[0]);
-		} else {
-			artworkImg.src = '/images/default-artwork.jpg';
+			JSONP.get('/get64/' + encodeURIComponent(player.api_getCurrentTrack().artwork.split('?')[0]), {}, function(response){
+				artworkImg.src = response;
+			});
 		}
 
 		//add getters to the soundcloud global context
@@ -235,3 +238,68 @@ if (!Array.prototype.forEach)
     }
   };
 }
+
+/*
+* Lightweight JSONP fetcher
+* Copyright 2010-2012 Erik Karlsson. All rights reserved.
+* BSD licensed
+*/
+var JSONP = (function() {
+  var counter = 0,
+      head, query, key, window = this,
+      config = {};
+
+  function load(url) {
+    var script = document.createElement('script'),
+        done = false;
+    script.src = url;
+    script.async = true;
+
+    script.onload = script.onreadystatechange = function() {
+      if (!done && (!this.readyState || this.readyState === "loaded" || this.readyState === "complete")) {
+        done = true;
+        script.onload = script.onreadystatechange = null;
+        if (script && script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+      }
+    };
+    if (!head) {
+      head = document.getElementsByTagName('head')[0];
+    }
+    head.appendChild(script);
+  }
+
+  function encode(str) {
+    return encodeURIComponent(str);
+  }
+
+  function jsonp(url, params, callback, callbackName) {
+    query = (url || '').indexOf('?') === -1 ? '?' : '&';
+    params = params || {};
+    for (key in params) {
+      if (params.hasOwnProperty(key)) {
+        query += encode(key) + "=" + encode(params[key]) + "&";
+      }
+    }
+    var jsonp = "json" + (++counter);
+    window[jsonp] = function(data) {
+      callback(data);
+      try {
+        delete window[jsonp];
+      } catch (e) {}
+      window[jsonp] = null;
+    };
+
+    load(url + query + (callbackName || config['callbackName'] || 'callback') + '=' + jsonp);
+    return jsonp;
+  }
+
+  function setDefaults(obj) {
+    config = obj;
+  }
+  return {
+    get: jsonp,
+    init: setDefaults
+  };
+}());
