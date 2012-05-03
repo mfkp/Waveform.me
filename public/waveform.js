@@ -45,7 +45,7 @@ window.scVisualizations = [];
 			ctx.clearRect(0, 0, ctx.width, ctx.height);
 			ctx.drawImage(waveformImg, 0, 0);
 		}
-		JSONP.get('/get64/' + encodeURIComponent(player.api_getCurrentTrack().waveformUrl.split('?')[0]), {}, function(response){
+		JSONP.get('/get/' + encodeURIComponent(player.api_getCurrentTrack().waveformUrl.split('?')[0]), {}, function(response){
 			waveformImg.src = response;
 		});
 
@@ -53,7 +53,7 @@ window.scVisualizations = [];
 		var artworkImg = new Image();
 		artworkImg.src = '/images/default-artwork.jpg';
 		if (player.api_getCurrentTrack().artwork != undefined) {
-			JSONP.get('/get64/' + encodeURIComponent(player.api_getCurrentTrack().artwork.split('?')[0]), {}, function(response){
+			JSONP.get('/get/' + encodeURIComponent(player.api_getCurrentTrack().artwork.split('?')[0]), {}, function(response){
 				artworkImg.src = response;
 			});
 		}
