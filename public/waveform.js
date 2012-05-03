@@ -45,15 +45,15 @@ window.scVisualizations = [];
 			ctx.clearRect(0, 0, ctx.width, ctx.height);
 			ctx.drawImage(waveformImg, 0, 0);
 		}
-		JSONP.get('/get/' + encodeURIComponent(player.api_getCurrentTrack().waveformUrl.split('?')[0]), {}, function(response){
+		JSONP.get(imageUrl(player.api_getCurrentTrack().waveformUrl.split('?')[0]), {}, function(response){
 			waveformImg.src = response;
 		});
 
 		//get artwork image
 		var artworkImg = new Image();
-		artworkImg.src = '/images/default-artwork.jpg';
+		artworkImg.src = 'https://waveform.me/images/default-artwork.jpg';
 		if (player.api_getCurrentTrack().artwork != undefined) {
-			JSONP.get('/get/' + encodeURIComponent(player.api_getCurrentTrack().artwork.split('?')[0]), {}, function(response){
+			JSONP.get(imageUrl(player.api_getCurrentTrack().artwork.split('?')[0]), {}, function(response){
 				artworkImg.src = response;
 			});
 		}
@@ -218,6 +218,10 @@ function domLoaded(callback) {
 	/* Other web browsers */
 	window.onload = callback;
 };
+
+function imageUrl(url) {
+	return '//waveform.me/get/' + encodeURIComponent(url);
+}
 
 //This prototype is provided by the Mozilla foundation and
 //is distributed under the MIT license.
