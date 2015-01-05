@@ -44,8 +44,8 @@
 			ctx.fillText(timeStr, 10, halfCigHeight);
 			//var timeWidth = ctx.measureText(timeStr).width;
 			ctx.font = "normal 14px Verdana";
-			var titleText = soundcloud.getCurrentTrack().title + " - " + soundcloud.getCurrentTrack().user.name;
-			ctx.fillText(titleText, buttWidth, (height-(buttHeight/2))+5, tubeWidth);
+			var titleText = soundcloud.getCurrentTrack().title + " - " + soundcloud.getCurrentTrack().user.username;
+			ctx.fillText(titleText, buttWidth, (height-(buttHeight/2))+5);
 			//clear part behind cherry
 			var cigWidth = buttWidth + tubeWidth + offset;
 			ctx.clearRect(cigWidth, 0, width-cigWidth, height);

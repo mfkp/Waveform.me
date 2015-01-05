@@ -5,11 +5,65 @@ window.scVisualizations = [];
 		waveformHeight 	= 280;
 	var sc_loop;
 
-	function start(player) {
+	var volume = 0,
+		nextVolume = 0,
+		currentPosition = 0,
+		percentage = 0,
+		x = 0,
+		prevx = -1,
+		counter = 0,
+		prevCounter = 0,
+		step = 0,
+		timeStr = "0:00",
+		interval = (1000 / 60); //frames per second
+
+	window.initializeViz = function(el) {
+		var widget = SC.Widget(el);
+		widget.bind(SC.Widget.Events.PLAY, function() {
+			startVisualization(widget);
+		});
+		widget.bind(SC.Widget.Events.PAUSE, function() {
+			pauseHandler(widget);
+		});
+		widget.bind(SC.Widget.Events.SEEK, function() {
+			seekHandler(widget);
+		});
+		widget.bind(SC.Widget.Events.FINISH, function() {
+			endHandler(widget);
+		});
+	};
+
+	var seekHandler = function(player, data) {
+		step = 0;
+		prevx = 1;
+	}
+
+	var pauseHandler = function(player, data) {
+		counter = 0;
+		clearListeners();
+	}
+
+	var endHandler = function(player, data) {
+		step = 0;
+		prevx = -1;
+		clearListeners();
+	}
+
+	function clearListeners() {
+		soundcloud.removeEventListener('onMediaPause', pauseHandler);
+		soundcloud.removeEventListener('onMediaEnd', endHandler);
+		soundcloud.removeEventListener('onMediaSeek', seekHandler);
+		if (window.loop != null) {
+			clearInterval(window.loop);
+		}
+	}
+
+	var startVisualization = function(player) {
 		clearListeners();
 
-		var volume = 0,
+		volume = 0,
 			nextVolume = 0,
+			currentPosition = 0,
 			percentage = 0,
 			x = 0,
 			prevx = -1,
@@ -17,13 +71,20 @@ window.scVisualizations = [];
 			prevCounter = 0,
 			step = 0,
 			timeStr = "0:00",
-			duration = 	player.api_getCurrentTrack().duration / 1000, //duration in seconds
+			interval = (1000 / 60); //frames per second
+
+		var duration, durationHours, durationMinutes, durationSeconds, durationStr;
+
+		player.getCurrentSound(function(sound) {
+			currentTrack = sound;
+			console.log(sound);
+			duration = sound.duration / 1000, //duration in seconds
 			durationHours = parseInt(Math.round(duration) / 3600) % 24,
 			durationMinutes = parseInt(Math.round(duration) / 60) % 60,
 			durationSeconds = Math.round(duration) % 60,
 			durationStr = (durationHours > 0 ? durationHours + ":" : "") + durationMinutes
-						  + ":" + (durationSeconds < 10 ? "0" + durationSeconds : durationSeconds),
-			interval = (1000 / 60); //frames per second
+						  + ":" + (durationSeconds < 10 ? "0" + durationSeconds : durationSeconds);
+		});
 
 		//create the src canvas
 		var sc_wf = document.getElementById('sc_wf');
@@ -45,34 +106,40 @@ window.scVisualizations = [];
 			ctx.clearRect(0, 0, ctx.width, ctx.height);
 			ctx.drawImage(waveformImg, 0, 0);
 		}
-		JSONP.get(imageUrl(player.api_getCurrentTrack().waveformUrl.split('?')[0]), {}, function(response){
-			waveformImg.src = response;
-		});
 
 		//get artwork image
 		var artworkImg = new Image();
 		artworkImg.src = 'https://waveform.me/images/default-artwork.jpg';
-		if (player.api_getCurrentTrack().artwork != undefined) {
-			JSONP.get(imageUrl(player.api_getCurrentTrack().artwork.split('?')[0]), {}, function(response){
-				artworkImg.src = response;
+
+		player.getCurrentSound(function(sound) {
+			currentTrack = sound;
+			JSONP.get(imageUrl(sound.waveform_url.split('?')[0]), {}, function(response){
+				waveformImg.src = response;
 			});
-		}
+
+			if (sound.artwork_url != undefined) {
+				JSONP.get(imageUrl(sound.artwork_url.split('?')[0]), {}, function(response){
+					artworkImg.src = response;
+				});
+			}
+		});
 
 		//add getters to the soundcloud global context
-		soundcloud.getCurrentTrack = function() {
-			return player.api_getCurrentTrack();
-		}
 		soundcloud.getCurrentVolume = function() {
 			return volume;
 		}
 		soundcloud.getNextVolume = function() {
 			return nextVolume;
 		}
+		soundcloud.getCurrentTrack = function() {
+			return currentTrack;
+		}
 		soundcloud.getCurrentX = function() {
-			return Math.floor(waveformWidth * player.api_getTrackPosition() / duration);
+			// TODO: callback
+			return Math.floor(waveformWidth * currentPosition / duration);
 		}
 		soundcloud.getPercentDone = function() {
-			return player.api_getTrackPosition() / duration;
+			return currentPosition / duration;
 		}
 		soundcloud.getArtworkImg = function() {
 			return artworkImg;
@@ -85,31 +152,35 @@ window.scVisualizations = [];
 		}
 
 		var calculate = function() {
-			percentage = player.api_getTrackPosition() / duration;
-			x = Math.floor(waveformWidth * percentage);
-			if (x > prevx) {
-				//vol @ current position
-				volume = (waveformHeight - (countPixels(0) * 2)) / waveformHeight; //between 0 and 1
+			player.getPosition(function(position) {
+				position /= 1000;
+				currentPosition = position;
+				percentage = position / duration;
+				x = Math.floor(waveformWidth * percentage);
+				if (x > prevx) {
+					//vol @ current position
+					volume = (waveformHeight - (countPixels(0) * 2)) / waveformHeight; //between 0 and 1
 
-				//vol @ next position
-				nextVolume = (waveformHeight - (countPixels(1) * 2)) / waveformHeight; //between 0 and 1
+					//vol @ next position
+					nextVolume = (waveformHeight - (countPixels(1) * 2)) / waveformHeight; //between 0 and 1
 
-				//calculate time
-				var seconds = Math.round(player.api_getTrackPosition());
-				var hours = parseInt(seconds / 3600) % 24;
-				var minutes = parseInt(seconds / 60) % 60;
-				seconds = seconds % 60;
-				timeStr = (hours > 0 ? hours + ":" : "") + minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
+					//calculate time
+					var seconds = Math.round(position);
+					var hours = parseInt(seconds / 3600) % 24;
+					var minutes = parseInt(seconds / 60) % 60;
+					seconds = seconds % 60;
+					timeStr = (hours > 0 ? hours + ":" : "") + minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
 
-				prevx = x;
-				step = (nextVolume - volume) / (counter - prevCounter);
-				prevCounter = counter;
-			} else {
-				volume += step;
-			}
-			counter += 1;
+					prevx = x;
+					step = (nextVolume - volume) / (counter - prevCounter);
+					prevCounter = counter;
+				} else {
+					volume += step;
+				}
+				counter += 1;
 
-			scVisualizations.forEach(function(f) { f() });
+				scVisualizations.forEach(function(f) { f(); });
+			});
 		}
 
 		//counts pixels from top of waveform image to first transparent pixel (the actual wave)
@@ -126,41 +197,13 @@ window.scVisualizations = [];
 			return count;
 		}
 
-		var seekHandler = function(player, data) {
-			step = 0;
-			prevx = 1;
-		}
-		soundcloud.addEventListener('onMediaSeek', seekHandler);
-
-		var pauseHandler = function(player, data) {
-			counter = 0;
-			clearListeners();
-		}
-		soundcloud.addEventListener('onMediaPause', pauseHandler);
-
-		var endHandler = function(player, data) {
-			step = 0;
-			prevx = -1;
-			clearListeners();
-		}
-		soundcloud.addEventListener('onMediaEnd', endHandler);
-
-		function clearListeners() {
-			soundcloud.removeEventListener('onMediaPause', pauseHandler);
-			soundcloud.removeEventListener('onMediaEnd', endHandler);
-			soundcloud.removeEventListener('onMediaSeek', seekHandler);
-			if (window.loop != null) {
-				clearInterval(window.loop);
-			}
-		}
-
 		//start the event loop
 		window.loop = setInterval(calculate, interval);
 	}
 
 	function soundcloudReady() {
 		soundcloud.addEventListener('onMediaPlay', function(player, data) {
-			start(player);
+			startVisualization(player);
 		});
 	}
 
@@ -168,7 +211,7 @@ window.scVisualizations = [];
 		//load soundcloud api js if not already loaded
 		if (typeof(window.soundcloud) == 'undefined') {
 			var script = document.createElement('script');
-			script.src = 'https://raw.github.com/soundcloud/Widget-JS-API/master/soundcloud.player.api.js';
+			script.src = '//rawgit.com/soundcloud/Widget-JS-API/master/soundcloud.player.api.js';
 			var head = document.getElementsByTagName('head')[0],
 				done = false;
 			script.onload = script.onreadystatechange = function() {
@@ -220,7 +263,7 @@ function domLoaded(callback) {
 };
 
 function imageUrl(url) {
-	return '//waveform.me/get/' + encodeURIComponent(url);
+	return '/get/' + encodeURIComponent(url);
 }
 
 //This prototype is provided by the Mozilla foundation and

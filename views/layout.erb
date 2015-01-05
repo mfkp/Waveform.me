@@ -18,7 +18,13 @@
         padding-top: 60px;
       }
     </style>
+    <script src="/soundcloud.js"></script>
+    <script type="text/javascript" src="https://w.soundcloud.com/player/api.js"></script>
+    <script>
+      SC.initialize({client_id:"18e6c4a8f18d42b1597ea4acb50270d0"});
+    </script>
     <script type="text/javascript" src="/waveform.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   </head>
 
   <body>
@@ -37,7 +43,7 @@
                 <li><a href="/examples/rainbow">Double Rainbow</a></li>
               </ul>
             </li>
-            <li><a href="/docs">Docs</a></li>
+            <!-- <li><a href="/docs">Docs</a></li> -->
           </ul>
         </div>
       </div>
@@ -55,7 +61,6 @@
 
     <a href="https://github.com/mfkp/waveform.me" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 10001;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
 
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   	<script type="text/javascript" src="/bootstrap-dropdown.js"></script>
   	<script type="text/javascript">
   		$(function() {
