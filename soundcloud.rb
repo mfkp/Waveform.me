@@ -12,9 +12,11 @@ get '/docs' do
 end
 
 #simple soundcloud image proxy so we can serve images through the same domain, with jsonp and base64 images
-get '/get/*' do |url|
-  if !url.match(/^http:\/\//)
+get '/get/*' do
+  url = params[:splat].join('.')
+  if !url.match(/^http:\/\//) && !url.match(/^https:\/\//)
     url.sub!(/^http:\//, 'http://')
+    url.sub!(/^https:\//, 'https://')
   end
   image = open(url) {|f| f.read }
   return_image = Base64.encode64(image)
