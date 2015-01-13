@@ -109,7 +109,7 @@ window.scVisualizations = [];
 
 		//get artwork image
 		var artworkImg = new Image();
-		artworkImg.src = 'https://waveform.me/images/default-artwork.jpg';
+		artworkImg.src = '//waveform.me/images/default-artwork.jpg';
 
 		player.getCurrentSound(function(sound) {
 			currentTrack = sound;
