@@ -43,7 +43,7 @@
 			ctx.fill();
 
 			//draw record lines
-			ctx.fillStyle = "rgba(35,35,35,1)";
+			ctx.fillStyle = "rgba(70,70,70,1)";
 			for (var i = innerSize+(innerSize/10); i < amplitude; i+=circlesWidth) {
 				ctx.beginPath();
 				ctx.arc(half,half,i,0,Math.PI*2,true);
